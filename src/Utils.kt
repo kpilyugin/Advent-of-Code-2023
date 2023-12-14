@@ -1,24 +1,36 @@
-import java.math.BigInteger
-import java.security.MessageDigest
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
 import kotlin.io.path.readText
+import kotlin.math.max
+import kotlin.math.min
 
-/**
- * Reads lines from the given input txt file.
- */
 fun readInput(name: String) = Path("src/$name.txt").readLines()
 
 fun readInputText(name: String) = Path("src/$name.txt").readText()
 
-/**
- * Converts string to md5 hash.
- */
-fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))
-    .toString(16)
-    .padStart(32, '0')
-
-/**
- * The cleaner shorthand for printing output.
- */
 fun Any?.println() = println(this)
+
+fun check(actual: Any, expected: Any) {
+    if (actual != expected) {
+        throw IllegalStateException("Expected $expected, but got $actual")
+    }
+}
+
+data class Point(val x: Int, val y: Int)
+
+enum class Dir(val dx: Int, val dy: Int) {
+    LEFT(-1, 0),
+    RIGHT(1, 0),
+    UP(0, -1),
+    DOWN(0, 1)
+}
+
+fun List<String>.row(i: Int): String = this[i]
+
+fun List<String>.column(i: Int): String = map { it[i] }.joinToString(separator = "")
+
+fun <T> List<T>.allPairs(): List<Pair<T, T>> {
+    return indices.flatMap { second -> (0 until second).map { this[it] to this[second] } }
+}
+
+fun rangeBetween(a: Int, b: Int): IntRange = min(a, b)..max(a, b)
