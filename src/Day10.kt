@@ -7,17 +7,8 @@ fun main() {
         val n = input.size
         val m = input[0].length
 
-        fun findStart(): Point {
-            for (i in 0 until n) {
-                for (j in 0 until m) {
-                    if (input[i][j] == 'S') return Point(j, i)
-                }
-            }
-            throw IllegalStateException()
-        }
-
         val dist = Array(n) { IntArray(m) { -1 } }
-        val start = findStart()
+        val start = input.findStart()
         dist[start.y][start.x] = 0
 
         val turns = mapOf(
